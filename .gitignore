@@ -9,3 +9,5 @@ build
 *.iml
 
 *.log
+
+.DS_Store

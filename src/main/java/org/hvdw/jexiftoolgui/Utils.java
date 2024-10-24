@@ -365,6 +365,11 @@ public class Utils {
                 logger.info("This version: " + ProgramTexts.Version);
                 String[] awebversion = web_version.split("\\.");  // Need to escape on literal dot instead of regex ".", which means any character
                 String[] alocalversion = (ProgramTexts.Version).split("\\.");
+
+                // Remove any "-<suffix>" from the version string
+                awebversion[2] = awebversion[2].split("-")[0];
+                alocalversion[2] = alocalversion[2].split("-")[0];
+
                 if (Integer.parseInt(awebversion[0]) > Integer.parseInt(alocalversion[0]) ) {
                     newer_available = true;
                     logger.debug("web_digit1 {} local_digit1 {} newer_available {}",awebversion[0], alocalversion[0], newer_available);

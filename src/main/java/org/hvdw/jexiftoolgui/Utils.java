@@ -343,7 +343,7 @@ public class Utils {
         boolean versioncheck = prefs.getByKey(VERSION_CHECK, true);
         boolean validconnection = true;
         boolean newer_available = false;
-        String update_url = "https://raw.githubusercontent.com/hvdwolf/jExifToolGUI/master/version.txt";
+        String update_url = "https://raw.githubusercontent.com/asaintsever/jExifToolGUI/r2.0.2/version.txt";
 
         if (fromWhere.equals("menu") || versioncheck) {
 
@@ -384,7 +384,7 @@ public class Utils {
                             JOptionPane.DEFAULT_OPTION, JOptionPane.QUESTION_MESSAGE, null, options, options[0]);
                     if (choice == 1) { //Yes
                         // Do something
-                        openBrowser("https://github.com/hvdwolf/jExifToolGUI/releases");
+                        openBrowser("https://github.com/asaintsever/jExifToolGUI/releases");
                         System.exit(0);
                     }
 

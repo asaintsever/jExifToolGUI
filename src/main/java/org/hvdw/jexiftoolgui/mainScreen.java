@@ -4028,7 +4028,7 @@ private String getSeparatorString() {
             version = "I cannot determine the exiftool version";
         }
         Float floatversion = Float.parseFloat(version.trim());
-        Float minversion = new Float("9.09");
+        Float minversion =Float.parseFloat("9.09");
         int retval = floatversion.compareTo(minversion);
         logger.trace("returned version for exiftool (>0: OK; <=0: No gpano): {}", retval);
         if (retval >0) { // cureent exiftool > 9.09

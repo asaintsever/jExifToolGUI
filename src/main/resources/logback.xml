@@ -12,15 +12,15 @@
         </encoder>
     </appender>
  
-    <appender name="FILE" class="ch.qos.logback.core.FileAppender">
-        <file>${LOG_PATH}/jexiftoolgui_${byMinute}.log</file>
-        <append>true</append>
-        <immediateFlush>true</immediateFlush>
-        <encoder>
-            <pattern>%d{HH:mm:ss.SSS} [%thread] %-5level %logger{36} - %msg%n</pattern>
-            <outputPatternAsHeader>true</outputPatternAsHeader>
-        </encoder>
-    </appender>
+<!--    <appender name="FILE" class="ch.qos.logback.core.FileAppender">-->
+<!--        <file>${LOG_PATH}/jexiftoolgui_${byMinute}.log</file>-->
+<!--        <append>true</append>-->
+<!--        <immediateFlush>true</immediateFlush>-->
+<!--        <encoder>-->
+<!--            <pattern>%d{HH:mm:ss.SSS} [%thread] %-5level %logger{36} - %msg%n</pattern>-->
+<!--            <outputPatternAsHeader>true</outputPatternAsHeader>-->
+<!--        </encoder>-->
+<!--    </appender>-->
     
     <logger name="org.hvdw.jexiftoolgui" level="info" additivity="false">
         <!-- <appender-ref ref="FILE" /> -->

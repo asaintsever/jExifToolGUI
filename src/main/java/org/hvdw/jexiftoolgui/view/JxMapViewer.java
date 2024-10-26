@@ -7,6 +7,7 @@ import com.intellij.uiDesigner.core.Spacer;
 import org.hvdw.jexiftoolgui.MyVariables;
 import org.hvdw.jexiftoolgui.Utils;
 import org.hvdw.jexiftoolgui.facades.IPreferencesFacade;
+import org.hvdw.jexiftoolgui.facades.SystemPropertyFacade;
 import org.hvdw.jexiftoolgui.model.Nominatim;
 import org.jxmapviewer.JXMapKit;
 import org.jxmapviewer.JXMapViewer;
@@ -32,6 +33,7 @@ import java.util.*;
 import java.util.List;
 
 import static org.hvdw.jexiftoolgui.facades.IPreferencesFacade.PreferenceKey.*;
+import static org.hvdw.jexiftoolgui.facades.SystemPropertyFacade.SystemPropertyKey.USER_HOME;
 
 /**
  * This class draws the initial map, activates the mouse/key listeners. And handles the search/fin options
@@ -335,7 +337,7 @@ public class JxMapViewer extends JDialog {
         DefaultTileFactory tileFactory = new DefaultTileFactory(info);
 
         // Setup local file cache
-        File cacheDir = new File(System.getProperty("user.home") + File.separator + ".jxmapviewer2");
+        File cacheDir = new File(SystemPropertyFacade.getPropertyByKey(USER_HOME) + File.separator + ".jxmapviewer2");
         tileFactory.setLocalCache(new FileBasedLocalCache(cacheDir, false));
 
         // Setup JXMapViewer
@@ -381,7 +383,7 @@ public class JxMapViewer extends JDialog {
         DefaultTileFactory tileFactory = new DefaultTileFactory(info);
 
         // Setup local file cache
-        File cacheDir = new File(System.getProperty("user.home") + File.separator + ".jxmapviewer2");
+        File cacheDir = new File(SystemPropertyFacade.getPropertyByKey(USER_HOME) + File.separator + ".jxmapviewer2");
         tileFactory.setLocalCache(new FileBasedLocalCache(cacheDir, false));
 
         // Setup JXMapViewer

@@ -343,7 +343,7 @@ public class Utils {
         boolean versioncheck = prefs.getByKey(VERSION_CHECK, true);
         boolean validconnection = true;
         boolean newer_available = false;
-        String update_url = "https://raw.githubusercontent.com/hvdwolf/jExifToolGUI/master/version.txt";
+        String update_url = "https://raw.githubusercontent.com/asaintsever/jExifToolGUI/main/version.txt";
 
         if (fromWhere.equals("menu") || versioncheck) {
 
@@ -365,6 +365,11 @@ public class Utils {
                 logger.info("This version: " + ProgramTexts.Version);
                 String[] awebversion = web_version.split("\\.");  // Need to escape on literal dot instead of regex ".", which means any character
                 String[] alocalversion = (ProgramTexts.Version).split("\\.");
+
+                // Remove any "-<suffix>" from the version string
+                awebversion[2] = awebversion[2].split("-")[0];
+                alocalversion[2] = alocalversion[2].split("-")[0];
+
                 if (Integer.parseInt(awebversion[0]) > Integer.parseInt(alocalversion[0]) ) {
                     newer_available = true;
                     logger.debug("web_digit1 {} local_digit1 {} newer_available {}",awebversion[0], alocalversion[0], newer_available);
@@ -384,7 +389,7 @@ public class Utils {
                             JOptionPane.DEFAULT_OPTION, JOptionPane.QUESTION_MESSAGE, null, options, options[0]);
                     if (choice == 1) { //Yes
                         // Do something
-                        openBrowser("https://github.com/hvdwolf/jExifToolGUI/releases");
+                        openBrowser("https://github.com/asaintsever/jExifToolGUI/releases");
                         System.exit(0);
                     }
 
@@ -1492,8 +1497,7 @@ public class Utils {
     static public BufferedImage getFrameIcon() {
          BufferedImage frameicon = null;
          try {
-             //frameicon = ImageIO.read(mainScreen.class.getResource("/icons/jexiftoolgui-frameicon.png"));
-             frameicon = ImageIO.read(mainScreen.class.getResource("/icons/logo20-frameicon.png"));
+             frameicon = ImageIO.read(mainScreen.class.getResource("/icons/jexiftoolgui-frameicon.png"));
          } catch (IOException ioe) {
              logger.info("error loading frame icon {}", ioe.toString());
          }

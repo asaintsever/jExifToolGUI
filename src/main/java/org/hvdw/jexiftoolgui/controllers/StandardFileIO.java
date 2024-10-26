@@ -2,7 +2,6 @@ package org.hvdw.jexiftoolgui.controllers;
 
 import org.hvdw.jexiftoolgui.*;
 import org.hvdw.jexiftoolgui.facades.IPreferencesFacade;
-import org.hvdw.jexiftoolgui.facades.SystemPropertyFacade;
 import org.slf4j.LoggerFactory;
 
 import javax.imageio.ImageIO;
@@ -26,7 +25,6 @@ import java.util.List;
 import static org.hvdw.jexiftoolgui.Application.OS_NAMES.APPLE;
 import static org.hvdw.jexiftoolgui.facades.IPreferencesFacade.PreferenceKey.*;
 import static org.hvdw.jexiftoolgui.facades.IPreferencesFacade.PreferenceKey.LAST_OPENED_FOLDER;
-import static org.hvdw.jexiftoolgui.facades.SystemPropertyFacade.SystemPropertyKey.USER_HOME;
 
 public class StandardFileIO {
 
@@ -143,12 +141,11 @@ public class StandardFileIO {
 
         boolean useLastOpenedFolder = prefs.getByKey(USE_LAST_OPENED_FOLDER, false);
         String lastOpenedFolder = prefs.getByKey(LAST_OPENED_FOLDER, "");
-        String userHome = SystemPropertyFacade.getPropertyByKey(USER_HOME);
 
         String defaultStartFolder = prefs.getByKey(DEFAULT_START_FOLDER, "");
 
         //java_11 
-        String startFolder = !defaultStartFolder.isBlank() ? defaultStartFolder : userHome;
+        String startFolder = !defaultStartFolder.isBlank() ? defaultStartFolder : MyConstants.JEXIFTOOLGUI_ROOT;
 
         //java_11 
         if (useLastOpenedFolder && !lastOpenedFolder.isBlank()) {
@@ -204,18 +201,22 @@ public class StandardFileIO {
         } else {
             imgFilter = new FileNameExtensionFilter(ResourceBundle.getBundle("translations/program_strings").getString("stfio.images"), MyConstants.SUPPORTED_IMAGES);
         }
+
         FileFilter audioFormats = new FileNameExtensionFilter(ResourceBundle.getBundle("translations/program_strings").getString("stfio.audioformats"), MyConstants.SUPPORTED_AUDIOS);
         FileFilter videoFormats = new FileNameExtensionFilter(ResourceBundle.getBundle("translations/program_strings").getString("stfio.videoformats"), MyConstants.SUPPORTED_VIDEOS);
         FileFilter supFormats = new FileNameExtensionFilter(ResourceBundle.getBundle("translations/program_strings").getString("stfio.allformats"), MyConstants.SUPPORTED_FORMATS);
         jchooser.setMultiSelectionEnabled(true);
         jchooser.setDialogTitle(ResourceBundle.getBundle("translations/program_strings").getString("stfio.loadimages"));
         jchooser.setFileFilter(imgFilter);
+
         if (!"".equals(userDefinedFilefilter)) {
             jchooser.addChoosableFileFilter(imageFormats);
         }
+
         jchooser.addChoosableFileFilter(audioFormats);
         jchooser.addChoosableFileFilter(videoFormats);
         jchooser.addChoosableFileFilter(supFormats);
+
         int status = jchooser.showOpenDialog(myComponent);
         if (status == JFileChooser.APPROVE_OPTION) {
             files = jchooser.getSelectedFiles();
@@ -226,6 +227,7 @@ public class StandardFileIO {
         } else {
             files = null;
         }
+
         return files;
     }
 
@@ -233,7 +235,6 @@ public class StandardFileIO {
      * Get the files from the "Load images" command  via Awt Filedialog
      */
     public static File[] getFileNamesAwt(JPanel myComponent) {
-
         Frame dialogframe = new Frame();
         Locale currentLocale = new Locale.Builder().setLocale(MyVariables.getCurrentLocale()).build();
         dialogframe.applyComponentOrientation(ComponentOrientation.getOrientation(currentLocale));
@@ -245,11 +246,13 @@ public class StandardFileIO {
         FileDialog fdchooser = new FileDialog(dialogframe, ResourceBundle.getBundle("translations/program_strings").getString("stfio.loadimages"), FileDialog.LOAD);
         //Locale currentLocale = new Locale.Builder().setLocale(MyVariables.getCurrentLocale()).build();
         fdchooser.applyComponentOrientation(ComponentOrientation.getOrientation(currentLocale));
+
         Application.OS_NAMES os = Utils.getCurrentOsName();
         if (os == APPLE) {
             System.setProperty("apple.awt.fileDialogForDirectories", "false");
             System.setProperty("apple.awt.use-file-dialog-packages", "true");
         }
+
         fdchooser.setDirectory(startFolder);
         fdchooser.setMultipleMode(true);
 
@@ -276,6 +279,7 @@ public class StandardFileIO {
                 }
             }
         });
+
         fdchooser.setVisible(true);
 
         File[] files = fdchooser.getFiles();
@@ -283,6 +287,7 @@ public class StandardFileIO {
             // no selection
             return files = null;
         }
+
         MyVariables.setLoadedFiles(files);
         prefs.storeByKey(LAST_OPENED_FOLDER, fdchooser.getDirectory());
         return files;
@@ -300,6 +305,7 @@ public class StandardFileIO {
 
         File startFolder = new File(getFolderPathToOpenBasedOnPreferences());
         logger.debug("startFolder for Opening folder with Jfilechooser {}", getFolderPathToOpenBasedOnPreferences());
+
         Application.OS_NAMES os = Utils.getCurrentOsName();
         if (os == APPLE) {
             Path tmp = Paths.get(getFolderPathToOpenBasedOnPreferences());
@@ -314,6 +320,7 @@ public class StandardFileIO {
         jchooser.resetChoosableFileFilters();
         jchooser.setAcceptAllFileFilterUsed(false);
         jchooser.setFileSelectionMode(JFileChooser.DIRECTORIES_ONLY);
+
         int status = jchooser.showOpenDialog(myComponent);
         if (status == JFileChooser.APPROVE_OPTION) {
             SelectedFolder = jchooser.getSelectedFile().getAbsolutePath();
@@ -346,6 +353,7 @@ public class StandardFileIO {
         dialogframe.applyComponentOrientation(ComponentOrientation.getOrientation(currentLocale));
         String startFolder = getFolderPathToOpenBasedOnPreferences();
         logger.debug("startFolder for Opening folder with Awt {}", getFolderPathToOpenBasedOnPreferences());
+
         Application.OS_NAMES os = Utils.getCurrentOsName();
         if (os == APPLE) {
             Path tmp = Paths.get(getFolderPathToOpenBasedOnPreferences());
@@ -354,6 +362,7 @@ public class StandardFileIO {
             System.setProperty("apple.awt.fileDialogForDirectories", "true");
             System.setProperty("apple.awt.use-file-dialog-packages", "false");
         }
+
         FileDialog fdchooser = new FileDialog(dialogframe, ResourceBundle.getBundle("translations/program_strings").getString("stfio.loadfolder"), FileDialog.LOAD);
         fdchooser.applyComponentOrientation(ComponentOrientation.getOrientation(currentLocale));
         fdchooser.setDirectory(startFolder);
@@ -364,6 +373,7 @@ public class StandardFileIO {
         if (SelectedFolder == null) {
             files = null;
         }
+
         File folder = new File(SelectedFolder);
         files = folder.listFiles();
         realFiles = stripFoldersFromFiles(files);
@@ -374,21 +384,22 @@ public class StandardFileIO {
     }
 
     /*
-    / This method is called from the MetDataViewPanel and copies, when relevant, the custom config file to the "user home"/jexiftoolgui_data
-    */
+     * This method is called from the MetDataViewPanel and copies, when relevant, the custom config file to the "user home"/jexiftoolgui_data
+     */
     public static String CopyCustomConfigFile(String fileName, String configFilePath) {
-        String userHome = SystemPropertyFacade.getPropertyByKey(USER_HOME);
-        String strjexiftoolguifolder = userHome + File.separator + MyConstants.MY_DATA_FOLDER;
+        String strjexiftoolguifolder = MyConstants.JEXIFTOOLGUI_ROOT + File.separator + MyConstants.MY_DATA_FOLDER;
         String strfileToBe = strjexiftoolguifolder + File.separator + fileName;
         String copyResult = "";
         //NIO copy with replace existing
         Path copyFrom = Paths.get(configFilePath);
         Path copyTo = Paths.get(strfileToBe);
         //logger.info("copyFrom {} copyTo {}", configFilePath, strfileToBe);
+
         File testFile = new File(strfileToBe);
         if (testFile.exists()) {
             testFile.delete();
         }
+
         try {
             Path path = Files.copy(copyFrom, copyTo, StandardCopyOption.REPLACE_EXISTING);
             copyResult = "successfully copied config file";
@@ -397,25 +408,27 @@ public class StandardFileIO {
             logger.error("copy of \"{}\" to \"{}\" failed with {}", configFilePath, strfileToBe, e.toString());
             copyResult = e.toString();
         }
+
         return copyResult;
     }
 
     /*
-    / This method is called from the MetDataViewPanel and exports, when relevant, the custom config file to the "user home"
-    */
+     * This method is called from the MetDataViewPanel and exports, when relevant, the custom config file to the "user home"
+     */
     public static String ExportCustomConfigFile(String fileName) {
-        String userHome = SystemPropertyFacade.getPropertyByKey(USER_HOME);
-        String strCopyTo = userHome + File.separator + fileName;
-        String strCopyFrom = userHome + File.separator + MyConstants.MY_DATA_FOLDER + File.separator + fileName;
+        String strCopyTo = MyConstants.JEXIFTOOLGUI_ROOT + File.separator + fileName;
+        String strCopyFrom = MyConstants.JEXIFTOOLGUI_ROOT + File.separator + MyConstants.MY_DATA_FOLDER + File.separator + fileName;
         String copyResult = "";
         //NIO copy with replace existing
         Path copyTo = Paths.get(strCopyTo);
         Path copyFrom = Paths.get(strCopyFrom);
         //logger.info("copyFrom {} copyTo {}", configFilePath, strfileToBe);
-        File testFile = new File(userHome + File.separator + fileName);
+
+        File testFile = new File(MyConstants.JEXIFTOOLGUI_ROOT + File.separator + fileName);
         if (testFile.exists()) {
             testFile.delete();
         }
+
         try {
             Path path = Files.copy(copyFrom, copyTo, StandardCopyOption.REPLACE_EXISTING);
             copyResult = "successfully copied config file";
@@ -424,27 +437,29 @@ public class StandardFileIO {
             logger.error("copy of \"{}\" to \"{}\" failed with {}", strCopyFrom , strCopyTo, e.toString());
             copyResult = e.toString();
         }
+
         return copyResult;
     }
 
     /*
-    / This method is used to import a custom config file from the path where the user also specified
-    / the csv file for import
-    */
+     * This method is used to import a custom config file from the path where the user also specified
+     * the csv file for import
+     */
     public static String ImportCustomConfigFile(String fileName) {
-        String userHome = SystemPropertyFacade.getPropertyByKey(USER_HOME);
-        //String strjexiftoolguifolder = userHome + File.separator + MyConstants.MY_DATA_FOLDER;
-        String strCopyTo = userHome + File.separator + MyConstants.MY_DATA_FOLDER + File.separator + fileName;
+        //String strjexiftoolguifolder = MyConstants.JEXIFTOOLGUI_ROOT + File.separator + MyConstants.MY_DATA_FOLDER;
+        String strCopyTo = MyConstants.JEXIFTOOLGUI_ROOT + File.separator + MyConstants.MY_DATA_FOLDER + File.separator + fileName;
         String strCopyFrom = fileName;
         String copyResult = "";
         //NIO copy with replace existing
         Path copyTo = Paths.get(strCopyTo);
         Path copyFrom = Paths.get(strCopyFrom);
         //logger.info("copyFrom {} copyTo {}", configFilePath, strfileToBe);
+
         File testFile = new File(strCopyTo);
         if (testFile.exists()) {
             testFile.delete();
         }
+
         try {
             Path path = Files.copy(copyFrom, copyTo, StandardCopyOption.REPLACE_EXISTING);
             copyResult = "successfully copied config file";
@@ -453,6 +468,7 @@ public class StandardFileIO {
             logger.error("copy of \"{}\" to \"{}\" failed with {}", strCopyFrom , strCopyTo, e.toString());
             copyResult = e.toString();
         }
+
         return copyResult;
     }
 
@@ -462,12 +478,11 @@ public class StandardFileIO {
         String method_result = "";
         String fileToBecopied = "";
         File copyFile = null;
-        String userHome = SystemPropertyFacade.getPropertyByKey(USER_HOME);
         // Check if folder exists
-        String strjexiftoolguifolder = userHome + File.separator + MyConstants.MY_DATA_FOLDER;
+        String strjexiftoolguifolder = MyConstants.JEXIFTOOLGUI_ROOT + File.separator + MyConstants.MY_DATA_FOLDER;
+
         File jexiftoolguifolder = new File(strjexiftoolguifolder);
         if (!jexiftoolguifolder.exists()) { // no folder yet
-            // First create jexiftoolgui_custom in userHome
             try {
                 Files.createDirectories(Paths.get(strjexiftoolguifolder));
             } catch (IOException ioe) {
@@ -490,10 +505,12 @@ public class StandardFileIO {
                 e.printStackTrace();
             }
         }
+
         MyVariables.setjexiftoolguiCacheFolder(strjexiftoolguicachefolder);
 
         // Now check if our database exists
         fileToBecopied = strjexiftoolguifolder + File.separator + "jexiftoolgui.db";
+
         copyFile = new File(fileToBecopied);
         if (!copyFile.exists()) {
             logger.debug("no database yet; trying to create it");
@@ -514,11 +531,13 @@ public class StandardFileIO {
 
     public static boolean deleteDirectory(File directoryToBeDeleted) {
         File[] allContents = directoryToBeDeleted.listFiles();
+
         if (allContents != null) {
             for (File file : allContents) {
                 deleteDirectory(file);
             }
         }
+
         return directoryToBeDeleted.delete();
     }
 
@@ -538,6 +557,7 @@ public class StandardFileIO {
                 logger.error(result);
             }
         }
+
         // Now (re)create our tmpfolder
         try {
             //Files.createDirectories(Paths.get(tempWorkDir + File.separator + "jexiftoolgui"));
@@ -547,9 +567,9 @@ public class StandardFileIO {
             result = "Creating folder \"" + tempWorkDir + File.separator + "jexiftoolgui failed";
             logger.error(result);
         }
+
         // delete our tmp workfolder including contents on program exit
         tmpfolder.deleteOnExit();
-
         return result;
     }
 
@@ -586,7 +606,7 @@ public class StandardFileIO {
     }
 
     /*
-    * This method delivers a folder path containing images to the several screens
+     * This method delivers a folder path containing images to the several screens
      */
     public String getImagePath(JPanel myComponent) {
         String SelectedFolder;
@@ -625,19 +645,17 @@ public class StandardFileIO {
     }
 
     /*
-    / This method copies the thumb files from the tmp folder to the cache folder
-    / It does this in a swingworker background process
+     * This method copies the thumb files from the tmp folder to the cache folder
+     * It does this in a swingworker background process
      */
     public static void copyThumbsToCache() {
         // use with *ThumbnailImage.jpg and *PhotoshopThumbnail.jpg
-
         SwingWorker sw = new SwingWorker<Void, Void>() {
             public Void doInBackground() {
 
                 String tmpWorkDir = MyVariables.gettmpWorkFolder();
                 Path tmpworkDirPath = Paths.get(tmpWorkDir);
                 File tmpWorkDirFile = new File(tmpWorkDir);
-                String userHome = SystemPropertyFacade.getPropertyByKey(USER_HOME);
                 File[] allExtractedThumbs = tmpWorkDirFile.listFiles();
                 for (File thumb : allExtractedThumbs) {
                     String thumbName = thumb.getName();
@@ -670,16 +688,16 @@ public class StandardFileIO {
                 return null;
             }
         };
+
         sw.execute();
     }
 
     /*
-/ This method saves.copies a single icon to cache after having created this from an image without preview
-/ It does this in a swingworker background process
- */
+    / This method saves.copies a single icon to cache after having created this from an image without preview
+    / It does this in a swingworker background process
+    */
     public static void saveIconToCache(String fileName, BufferedImage bi) {
         // use with *ThumbnailImage.jpg and *PhotoshopThumbnail.jpg
-        String userHome = SystemPropertyFacade.getPropertyByKey(USER_HOME);
         String thumbFileName = fileName.substring(0, fileName.lastIndexOf('.')) + "_ThumbnailImage.jpg";
 
         SwingWorker sw = new SwingWorker<Void, Void>() {
@@ -697,8 +715,8 @@ public class StandardFileIO {
                 return null;
             }
         };
-        sw.execute();
 
+        sw.execute();
     }
 
 }

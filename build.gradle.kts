@@ -111,6 +111,7 @@ java {
 // New fatJar Gradle/kotlin way
 val fatJar = task("fatJar", type = Jar::class) {
     baseName = "${project.name}-fat"
+    duplicatesStrategy = DuplicatesStrategy.EXCLUDE
     manifest {
         attributes["Implementation-Title"] = "Gradle Jar File Example"
         //attributes["Implementation-Version"] = version
@@ -145,6 +146,7 @@ tasks {
 //}
 
 val jar by tasks.getting(Jar::class) {
+    duplicatesStrategy = DuplicatesStrategy.EXCLUDE
     manifest {
         attributes["Main-Class"] = project.ext["mainClassName"] as String
         attributes["Build-Timestamp"] = SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss.SSSZ").format(Date())

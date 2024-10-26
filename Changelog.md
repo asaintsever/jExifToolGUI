@@ -2,8 +2,8 @@
 
 ## 2024-10-27 2.1.0-als
 * Upgrade to Gradle 7.2, fix build, update doc and download links
-* Move `logs` and `jexiftoolgui_data` folders under user's home `.jexiftool` folder
-* Add command line arg to disable generation of log files
+* Move `jexiftoolgui_data` folder under user's home `.jexiftool` folder
+* Logs: disable file appender (stdout logs still available)
 
 ## 2023-03-18 2.0.2
 * Adapt MacOS bundle creation script to enable both a native x86_64 bundle and a native aarch64 ("new" M1) bundle. Note that this aach64 bundle is 125MB bigger due to the included java.

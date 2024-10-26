@@ -23,7 +23,7 @@
     </appender>
     
     <logger name="org.hvdw.jexiftoolgui" level="info" additivity="false">
-        <appender-ref ref="FILE" /> 
+        <!-- <appender-ref ref="FILE" /> -->
         <appender-ref ref="STDOUT" /> 
     </logger> 
  

@@ -234,7 +234,7 @@ public class MenuActionListener implements ActionListener  {
                 Utils.openBrowser("https://hosted.weblate.org/projects/jexiftoolgui/");
                 break;
             case "Changelog":
-                Utils.openBrowser("https://github.com/hvdwolf/jExifToolGUI/blob/master/Changelog.md");
+                Utils.openBrowser("https://github.com/asaintsever/jExifToolGUI/blob/main/Changelog.md");
                 break;
             case "Donate":
                 Utils.openBrowser("https://hvdwolf.github.io/jExifToolGUI/donate.html");

@@ -1,8 +1,8 @@
 # Changelog
 
-## 2024-10-27 2.1.0-als
+## 2024-10-26 2.1.0-als
 * Upgrade to Gradle 7.2, fix build, update doc and download links
-* Move `jexiftoolgui_data` folder under user's home `.jexiftool` folder
+* Move `jexiftoolgui_data` folder under `.jexiftoolgui` folder in user's home directory
 * Logs: disable file appender (stdout logs still available)
 
 ## 2023-03-18 2.0.2

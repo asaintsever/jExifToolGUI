@@ -4,10 +4,7 @@ import ch.qos.logback.classic.Logger;
 import com.intellij.uiDesigner.core.GridConstraints;
 import com.intellij.uiDesigner.core.GridLayoutManager;
 import com.opencsv.CSVReader;
-import org.hvdw.jexiftoolgui.MyVariables;
-import org.hvdw.jexiftoolgui.ProgramTexts;
-import org.hvdw.jexiftoolgui.TablePasteAdapter;
-import org.hvdw.jexiftoolgui.Utils;
+import org.hvdw.jexiftoolgui.*;
 import org.hvdw.jexiftoolgui.controllers.SQLiteJDBC;
 import org.hvdw.jexiftoolgui.controllers.StandardFileIO;
 import org.hvdw.jexiftoolgui.model.SQLiteModel;
@@ -42,7 +39,6 @@ import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 
 import static org.hvdw.jexiftoolgui.facades.SystemPropertyFacade.SystemPropertyKey.LINE_SEPARATOR;
-import static org.hvdw.jexiftoolgui.facades.SystemPropertyFacade.SystemPropertyKey.USER_HOME;
 
 /**
  * Original @author Dennis Damico
@@ -190,21 +186,22 @@ public class MetadataUserCombinations extends JDialog implements TableModelListe
                 boolean configFile = false;
                 String configFileName = "";
                 String csvFileName = "";
+
                 String setName = customSetcomboBox.getSelectedItem().toString();
                 if (!(setName == null) && !("".equals(setName))) {
                     logger.debug("setName selected for export: {}", setName);
                     String sql = "select customset_name, rowcount, screen_label, tag, default_value from CustomMetadatasetLines where customset_name=\"" + setName.trim() + "\" order by rowcount";
                     logger.debug(sql);
+
                     String queryResult = SQLiteJDBC.generalQuery(sql, "disk");
                     if (queryResult.length() > 0) {
                         String[] lines = queryResult.split(SystemPropertyFacade.getPropertyByKey(LINE_SEPARATOR));
                         logger.debug("rows selected for export:");
 
-                        String userHome = SystemPropertyFacade.getPropertyByKey(USER_HOME);
-                        //File myObj = new File(userHome + File.separator + setName.trim() + ".csv");
+                        //File myObj = new File(MyConstants.JEXIFTOOLGUI_ROOT + File.separator + setName.trim() + ".csv");
                         try {
-                            FileWriter csvWriter = new FileWriter(userHome + File.separator + setName.trim() + ".csv");
-                            csvFileName = userHome + File.separator + setName.trim() + ".csv";
+                            FileWriter csvWriter = new FileWriter(MyConstants.JEXIFTOOLGUI_ROOT + File.separator + setName.trim() + ".csv");
+                            csvFileName = MyConstants.JEXIFTOOLGUI_ROOT + File.separator + setName.trim() + ".csv";
                             csvWriter.write("customset_name\trowcount\tscreen_label\ttag\tdefault_value\n");
 
                             for (String line : lines) {
@@ -219,9 +216,11 @@ public class MetadataUserCombinations extends JDialog implements TableModelListe
                             logger.error(e.toString());
                         }
                     }
+
                     // Now check if we have a config file
                     sql = "select customset_name, custom_config from custommetadataset where customset_name=\"" + setName.trim() + "\"";
                     logger.debug(sql);
+
                     queryResult = SQLiteJDBC.generalQuery(sql, "disk");
                     if (queryResult.length() > 0) {
                         String[] lines = queryResult.split(SystemPropertyFacade.getPropertyByKey(LINE_SEPARATOR));
@@ -234,8 +233,7 @@ public class MetadataUserCombinations extends JDialog implements TableModelListe
                     }
                     String expTxt = ResourceBundle.getBundle("translations/program_strings").getString("mduc.exptext") + ": " + csvFileName;
                     if (configFile) {
-                        String userHome = SystemPropertyFacade.getPropertyByKey(USER_HOME);
-                        expTxt += "<br><br>" + ResourceBundle.getBundle("translations/program_strings").getString("mduc.exptextconfig") + ": " + userHome + File.separator + configFileName;
+                        expTxt += "<br><br>" + ResourceBundle.getBundle("translations/program_strings").getString("mduc.exptextconfig") + ": " + MyConstants.JEXIFTOOLGUI_ROOT + File.separator + configFileName;
                     }
                     JOptionPane.showMessageDialog(metadatapanel, String.format(ProgramTexts.HTML, 600, expTxt), ResourceBundle.getBundle("translations/program_strings").getString("mduc.exptitle"), JOptionPane.INFORMATION_MESSAGE);
                 }
@@ -345,9 +343,7 @@ public class MetadataUserCombinations extends JDialog implements TableModelListe
     / Get the csv file for the import of the custom metadata set
     */
     public String SelectCSVFile(JPanel myComponent) {
-
-        String startFolder = SystemPropertyFacade.getPropertyByKey(USER_HOME);
-        final JFileChooser chooser = new JFileChooser(startFolder);
+        final JFileChooser chooser = new JFileChooser(MyConstants.JEXIFTOOLGUI_ROOT);
         FileFilter filter = new FileNameExtensionFilter(ResourceBundle.getBundle("translations/program_strings").getString("mduc.csvfile"), "csv");
         chooser.setFileFilter(filter);
         chooser.setMultiSelectionEnabled(false);

@@ -1,12 +1,16 @@
 package org.hvdw.jexiftoolgui;
 
+import org.hvdw.jexiftoolgui.facades.SystemPropertyFacade;
+
 import java.awt.Font;
+import java.io.File;
+
+import static org.hvdw.jexiftoolgui.facades.SystemPropertyFacade.SystemPropertyKey.USER_HOME;
 
 public class MyConstants {
-    // pre 2.0.2 version
+    public static final String JEXIFTOOLGUI_ROOT = SystemPropertyFacade.getPropertyByKey(USER_HOME) + File.separator + ".jexiftoolgui";
     public static final String MY_DATA_FOLDER = "jexiftoolgui_data";
-    // Version >= 2.0.2
-    public static final String MY_BASE_FOLDER = "jexiftoolgui";
+
     // exiftool image info parameters
     public static final String[] ALL_PARAMS = {"-a", "-G", "-tab"};
     public static final String[] EXIF_PARAMS = {"-a", "-exif:all","-G", "-tab"};

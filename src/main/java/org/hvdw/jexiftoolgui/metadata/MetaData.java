@@ -3,7 +3,6 @@ package org.hvdw.jexiftoolgui.metadata;
 import org.hvdw.jexiftoolgui.*;
 import org.hvdw.jexiftoolgui.controllers.CommandRunner;
 import org.hvdw.jexiftoolgui.facades.IPreferencesFacade;
-import org.hvdw.jexiftoolgui.facades.SystemPropertyFacade;
 import org.slf4j.LoggerFactory;
 
 import javax.swing.*;
@@ -14,7 +13,6 @@ import java.util.List;
 import java.util.ResourceBundle;
 
 import static org.hvdw.jexiftoolgui.facades.IPreferencesFacade.PreferenceKey.PRESERVE_MODIFY_DATE;
-import static org.hvdw.jexiftoolgui.facades.SystemPropertyFacade.SystemPropertyKey.USER_HOME;
 
 public class MetaData {
     private final static ch.qos.logback.classic.Logger logger = (ch.qos.logback.classic.Logger) LoggerFactory.getLogger(MetaData.class);
@@ -207,7 +205,7 @@ public class MetaData {
         StringBuilder TotalOutput = new StringBuilder();
         int selectedIndices[] = MyVariables.getSelectedFilenamesIndices();
         File[] files = MyVariables.getLoadedFiles();
-        String strjexiftoolguiARGSfolder = SystemPropertyFacade.getPropertyByKey(USER_HOME) + File.separator + MyConstants.MY_DATA_FOLDER + File.separator + "args";
+        String strjexiftoolguiARGSfolder = MyConstants.JEXIFTOOLGUI_ROOT + File.separator + MyConstants.MY_DATA_FOLDER + File.separator + "args";
 
         boolean atLeastOneSelected = false;
         boolean copyAllToXMP = false;

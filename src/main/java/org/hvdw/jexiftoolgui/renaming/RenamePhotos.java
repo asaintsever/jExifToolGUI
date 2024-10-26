@@ -9,7 +9,6 @@ import org.hvdw.jexiftoolgui.controllers.CommandRunner;
 import org.hvdw.jexiftoolgui.controllers.StandardFileIO;
 import org.hvdw.jexiftoolgui.facades.IPreferencesFacade;
 import org.hvdw.jexiftoolgui.facades.PreferencesFacade;
-import org.hvdw.jexiftoolgui.facades.SystemPropertyFacade;
 import org.slf4j.LoggerFactory;
 
 import javax.swing.*;
@@ -27,8 +26,6 @@ import java.util.Locale;
 import java.util.ResourceBundle;
 
 import static org.hvdw.jexiftoolgui.facades.IPreferencesFacade.PreferenceKey.*;
-import static org.hvdw.jexiftoolgui.facades.SystemPropertyFacade.SystemPropertyKey.LINE_SEPARATOR;
-import static org.hvdw.jexiftoolgui.facades.SystemPropertyFacade.SystemPropertyKey.USER_HOME;
 
 public class RenamePhotos extends JDialog {
     private JPanel rootRenamingPane;
@@ -395,8 +392,7 @@ public class RenamePhotos extends JDialog {
                 // Check if wee need to preserver the file modify date
                 boolean preserveModifyDate = prefs.getByKey(PRESERVE_MODIFY_DATE, true);
                 if ((suffixDonNotUseradioButton.isSelected()) && (prefixStringradioButton.isSelected())) {
-                    String userHome = SystemPropertyFacade.getPropertyByKey(USER_HOME);
-                    String strjexiftoolguifolder = userHome + File.separator + MyConstants.MY_DATA_FOLDER;
+                    String strjexiftoolguifolder = MyConstants.JEXIFTOOLGUI_ROOT + File.separator + MyConstants.MY_DATA_FOLDER;
                     // string as prefix and no suffix
                     if (isWindows) {
                         cmdparams.add(Utils.platformExiftool().replace("\\", "/"));

@@ -21,7 +21,6 @@ import java.util.ResourceBundle;
 
 import static org.hvdw.jexiftoolgui.facades.IPreferencesFacade.PreferenceKey.PRESERVE_MODIFY_DATE;
 import static org.hvdw.jexiftoolgui.facades.SystemPropertyFacade.SystemPropertyKey.LINE_SEPARATOR;
-import static org.hvdw.jexiftoolgui.facades.SystemPropertyFacade.SystemPropertyKey.USER_HOME;
 
 public class EditUserDefinedCombis {
     private final static ch.qos.logback.classic.Logger logger = (ch.qos.logback.classic.Logger) LoggerFactory.getLogger(EditUserDefinedCombis.class);
@@ -149,8 +148,7 @@ public class EditUserDefinedCombis {
         cmdparams.add(Utils.platformExiftool());
         // -config parameter for custom config file has to be first parameter on command line
         if (!strcustomconfigfile.equals("")) {
-            String userHome = SystemPropertyFacade.getPropertyByKey(USER_HOME);
-            String strjexiftoolguifolder = userHome + File.separator + MyConstants.MY_DATA_FOLDER;
+            String strjexiftoolguifolder = MyConstants.JEXIFTOOLGUI_ROOT + File.separator + MyConstants.MY_DATA_FOLDER;
             cmdparams.add("-config");
             cmdparams.add(strjexiftoolguifolder + File.separator + strcustomconfigfile);
         }

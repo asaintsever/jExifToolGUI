@@ -2,7 +2,6 @@ package org.hvdw.jexiftoolgui.controllers;
 
 import org.hvdw.jexiftoolgui.MyConstants;
 import org.hvdw.jexiftoolgui.facades.IPreferencesFacade;
-import org.hvdw.jexiftoolgui.facades.SystemPropertyFacade;
 import org.slf4j.LoggerFactory;
 
 import javax.swing.*;
@@ -12,7 +11,6 @@ import java.nio.file.Files;
 import java.nio.file.Paths;
 
 import static org.hvdw.jexiftoolgui.controllers.StandardFileIO.extract_resource_to_jexiftoolguiFolder;
-import static org.hvdw.jexiftoolgui.facades.SystemPropertyFacade.SystemPropertyKey.USER_HOME;
 
 public class UpdateActions {
 
@@ -94,7 +92,7 @@ public class UpdateActions {
             fill_UserMetadataCustomSet_Tables("sql/fill_isadg.sql");
         }
         // our data folder
-        String strjexiftoolguifolder = SystemPropertyFacade.getPropertyByKey(USER_HOME) + File.separator + MyConstants.MY_DATA_FOLDER;
+        String strjexiftoolguifolder = MyConstants.JEXIFTOOLGUI_ROOT + File.separator + MyConstants.MY_DATA_FOLDER;
         // Check if isadg-struct.cfg exists
         File isadg = new File(strjexiftoolguifolder + File.separator + "isadg-struct.cfg");
         if (isadg.exists()) {
@@ -120,7 +118,7 @@ public class UpdateActions {
 
     static void update_1_7() {
         // our data folder
-        String strjexiftoolguifolder = SystemPropertyFacade.getPropertyByKey(USER_HOME) + File.separator + MyConstants.MY_DATA_FOLDER;
+        String strjexiftoolguifolder = MyConstants.JEXIFTOOLGUI_ROOT + File.separator + MyConstants.MY_DATA_FOLDER;
         String args_files[] = {"exif2iptc.args","gps2xmp.args","iptc2xmp.args","pdf2xmp.args","xmp2gps.args","xmp2pdf.args","exif2xmp.args","iptc2exif.args","iptcCore.args","xmp2exif.args","xmp2iptc.args"};
 
         String str_args_folder = strjexiftoolguifolder + File.separator + "args";
@@ -142,7 +140,7 @@ public class UpdateActions {
         String queryresult = "";
 
         // our data folder
-        String strjexiftoolguifolder = SystemPropertyFacade.getPropertyByKey(USER_HOME) + File.separator + MyConstants.MY_DATA_FOLDER;
+        String strjexiftoolguifolder = MyConstants.JEXIFTOOLGUI_ROOT + File.separator + MyConstants.MY_DATA_FOLDER;
         // Check if vrae.config exists
         File vrae = new File(strjexiftoolguifolder + File.separator + "vrae.config");
         if (!vrae.exists()) {
@@ -164,7 +162,7 @@ public class UpdateActions {
         String queryresult = "";
 
         // our data folder
-        String strjexiftoolguifolder = SystemPropertyFacade.getPropertyByKey(USER_HOME) + File.separator + MyConstants.MY_DATA_FOLDER;
+        String strjexiftoolguifolder = MyConstants.JEXIFTOOLGUI_ROOT + File.separator + MyConstants.MY_DATA_FOLDER;
         // Check if extra_functions.config exists
         File vrae = new File(strjexiftoolguifolder + File.separator + "extra_functions.config");
         if (!vrae.exists()) {

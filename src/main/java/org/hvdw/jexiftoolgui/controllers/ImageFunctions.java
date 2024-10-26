@@ -23,7 +23,6 @@ import java.util.List;
 import static org.hvdw.jexiftoolgui.Application.OS_NAMES.APPLE;
 import static org.hvdw.jexiftoolgui.Utils.*;
 import static org.hvdw.jexiftoolgui.facades.SystemPropertyFacade.SystemPropertyKey.LINE_SEPARATOR;
-import static org.hvdw.jexiftoolgui.facades.SystemPropertyFacade.SystemPropertyKey.USER_HOME;
 
 public class ImageFunctions {
     // A big deal was copied from Dennis Damico's FastPhotoTagger
@@ -314,8 +313,7 @@ public class ImageFunctions {
 
         // Get the temporary directory
         String tempWorkDir = MyVariables.gettmpWorkFolder();
-        String userHome = SystemPropertyFacade.getPropertyByKey(USER_HOME);
-        String strjexiftoolguicachefolder = userHome + File.separator + MyConstants.MY_DATA_FOLDER + File.separator + "cache";
+        String strjexiftoolguicachefolder = MyConstants.JEXIFTOOLGUI_ROOT + File.separator + MyConstants.MY_DATA_FOLDER + File.separator + "cache";
 
         cmdparams.add("-a");
         cmdparams.add("-m");

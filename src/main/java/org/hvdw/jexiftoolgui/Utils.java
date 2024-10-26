@@ -343,7 +343,7 @@ public class Utils {
         boolean versioncheck = prefs.getByKey(VERSION_CHECK, true);
         boolean validconnection = true;
         boolean newer_available = false;
-        String update_url = "https://raw.githubusercontent.com/asaintsever/jExifToolGUI/r2.0.2/version.txt";
+        String update_url = "https://raw.githubusercontent.com/asaintsever/jExifToolGUI/main/version.txt";
 
         if (fromWhere.equals("menu") || versioncheck) {
 

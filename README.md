@@ -3,12 +3,12 @@
 
 > Note: This is a fork of the original jExifToolGUI project that is **no more maintained by the author**.
 > 
-> I will release new versions of the software with bug fixes and new features depending on my own needs and usage of the software.
+> I will release new versions with bug fixes and new features depending on my own needs and usage of the software.
 > 
 > New versions are suffixed with the `-als` tag to differentiate them from the original project versions and are only available on this repository
 > (see [Releases](https://github.com/asaintsever/jExifToolGUI/releases)).
 > 
-> Refer to the [Changelog](CHANGELOG.md) for the list of changes.
+> Refer to the [Changelog](https://github.com/asaintsever/jExifToolGUI/blob/main/Changelog.md) for the list of changes.
 
 ![multi platform jExifToolGUI](https://github.com/hvdwolf/jExifToolGUI/blob/master/images/multi-platform-1280.jpg)
 **jExifToolGUI** is a java/Swing program for Windows/Linux/macOS that functions as a graphical frontend (GUI) for [exiftool](https://exiftool.org/).<br><br>
